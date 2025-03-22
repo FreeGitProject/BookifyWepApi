@@ -5,6 +5,7 @@ using Bookify.Domain.Abstractions;
 using Bookify.Domain.Apartments;
 using Bookify.Domain.Bookings;
 using Bookify.Domain.Users;
+using Bookify.Infrastructure.Authentication;
 using Bookify.Infrastructure.Clock;
 using Bookify.Infrastructure.Data;
 using Bookify.Infrastructure.Email;
@@ -31,7 +32,9 @@ public static class DependencyInjection
         services
            .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
            .AddJwtBearer();
+        services.Configure<AuthenticationOptions>(configuration.GetSection("Authentication"));
 
+        services.ConfigureOptions<JwtBearerOptionsSetup>();
         return services;
     }
     private static void AddPersistence(IServiceCollection services, IConfiguration configuration)
