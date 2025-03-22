@@ -23,7 +23,7 @@ public sealed class Review : Entity
         Comment = comment;
         CreatedOnUtc = createdOnUtc;
     }
-
+    private Review() { }
     public Guid ApartmentId { get; private set; }
 
     public Guid BookingId { get; private set; }
