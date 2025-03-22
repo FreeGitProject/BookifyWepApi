@@ -1,3 +1,4 @@
+using Bookify.Api.Extensions;
 using Bookify.Application;
 using Bookify.Infrastructure;
 
@@ -19,10 +20,14 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+    app.ApplyMigrations();
+
+    // REMARK: Uncomment if you want to seed initial data.
+     //app.SeedData();
 }
 
 app.UseHttpsRedirection();
-
+app.UseCustomExceptionHandler();
 
 app.MapControllers();
 

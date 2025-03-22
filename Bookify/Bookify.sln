@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bookify.Infrastructure", "B
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bookify.Api", "Bookify.Api\Bookify.Api.csproj", "{0102D380-5E31-49F6-9308-C8E7F46F333E}"
 EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{4BE0ABE9-15AA-43C0-B6E1-B25EAF9F4C64}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -37,6 +39,10 @@ Global
 		{0102D380-5E31-49F6-9308-C8E7F46F333E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0102D380-5E31-49F6-9308-C8E7F46F333E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0102D380-5E31-49F6-9308-C8E7F46F333E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4BE0ABE9-15AA-43C0-B6E1-B25EAF9F4C64}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4BE0ABE9-15AA-43C0-B6E1-B25EAF9F4C64}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4BE0ABE9-15AA-43C0-B6E1-B25EAF9F4C64}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4BE0ABE9-15AA-43C0-B6E1-B25EAF9F4C64}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
