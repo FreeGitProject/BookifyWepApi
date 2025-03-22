@@ -87,9 +87,9 @@ public static class DependencyInjection
             httpClient.BaseAddress = new Uri(keycloakOptions.TokenUrl);
         });
 
-       // services.AddHttpContextAccessor();
+        services.AddHttpContextAccessor();
 
-        //services.AddScoped<IUserContext, UserContext>();
+        services.AddScoped<IUserContext, UserContext>();
     }
 
 }
