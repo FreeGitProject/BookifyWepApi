@@ -1,0 +1,27 @@
+Create the authentication screens next (Login/Register)
+Build out one of the main feature screens (Location, Usage, etc.)
+Make any adjustments to the current home screen
+
+
+docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' e6c2ed1c34237f3c8e81668c98a52607ef3a8c7d3dc4f8c76c7a2f161ec5daba
+
+docker inspect <e6c2ed1c34237f3c8e81668c98a52607ef3a8c7d3dc4f8c76c7a2f161ec5daba>
+
+
+ "Authentication": {
+   "Audience": "account",
+   "ValidIssuer": "http://bookify-idp:8080/realms/bookify",
+   "MetadataUrl": "http://bookify-idp:8080/realms/bookify/.well-known/openid-configuration",
+   "RequireHttpsMetadata": false
+ },
+ "Keycloak": {
+   "BaseUrl": "http://bookify-idp:8080",
+   "AdminUrl": "http://bookify-idp:8080/admin/realms/bookify/",
+   "TokenUrl": "http://bookify-idp:8080/realms/bookify/protocol/openid-connect/token",
+   "AdminClientId": "bookify-admin-client",
+   "AdminClientSecret": "1emODk0CVrCSbQA0ToTblwKuS2Nex1y4",
+   "AuthClientId": "bookify-auth-client",
+   "AuthClientSecret": "AhVsRQOdTkKk1xPFKCfUf6dnsU91W1hC"
+ }
+ 
+ Update-Database
