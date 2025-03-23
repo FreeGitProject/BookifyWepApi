@@ -4,7 +4,7 @@ namespace Bookify.Domain.Abstractions;
 
 public class Result
 {
-    protected internal Result(bool isSuccess, Error error)
+    public Result(bool isSuccess, Error error)
     {
         if (isSuccess && error != Error.None)
         {
@@ -38,11 +38,11 @@ public class Result
         value is not null ? Success(value) : Failure<TValue>(Error.NullValue);
 }
 
-public class Result<TValue> : Result
+public sealed class Result<TValue> : Result
 {
     private readonly TValue? _value;
 
-    protected internal Result(TValue? value, bool isSuccess, Error error)
+    public Result(TValue? value, bool isSuccess, Error error)
         : base(isSuccess, error)
     {
         _value = value;
