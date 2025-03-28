@@ -4,7 +4,7 @@ public sealed class Role
 {
     public static readonly Role Registered = new(1, "Registered");
 
-    private Role(int id, string name)
+    public Role(int id, string name)
     {
         Id = id;
         Name = name;
