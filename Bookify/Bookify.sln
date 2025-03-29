@@ -17,7 +17,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bookify.Api", "Bookify.Api\
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{4BE0ABE9-15AA-43C0-B6E1-B25EAF9F4C64}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bookify.Domain.UnitTests", "..\Bookify.Domain.UnitTests\Bookify.Domain.UnitTests.csproj", "{DC2A5B74-A3CD-4858-8C6D-BF35B932CA37}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bookify.Domain.UnitTests", "..\Bookify.Domain.UnitTests\Bookify.Domain.UnitTests.csproj", "{DC2A5B74-A3CD-4858-8C6D-BF35B932CA37}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bookify.Application.UnitTests", "..\Bookify.Application.UnitTests\Bookify.Application.UnitTests.csproj", "{12965445-DCC7-408A-AA41-982C788C2C8D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -49,6 +51,10 @@ Global
 		{DC2A5B74-A3CD-4858-8C6D-BF35B932CA37}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DC2A5B74-A3CD-4858-8C6D-BF35B932CA37}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DC2A5B74-A3CD-4858-8C6D-BF35B932CA37}.Release|Any CPU.Build.0 = Release|Any CPU
+		{12965445-DCC7-408A-AA41-982C788C2C8D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{12965445-DCC7-408A-AA41-982C788C2C8D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{12965445-DCC7-408A-AA41-982C788C2C8D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{12965445-DCC7-408A-AA41-982C788C2C8D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -59,6 +65,7 @@ Global
 		{EBE2F771-0D8C-44D5-B82E-DABD802E25D8} = {00ECAD84-C2E6-4597-BBAB-43BE07EB66DF}
 		{0102D380-5E31-49F6-9308-C8E7F46F333E} = {00ECAD84-C2E6-4597-BBAB-43BE07EB66DF}
 		{DC2A5B74-A3CD-4858-8C6D-BF35B932CA37} = {EC239312-EF6A-4508-828F-98C2838F0894}
+		{12965445-DCC7-408A-AA41-982C788C2C8D} = {EC239312-EF6A-4508-828F-98C2838F0894}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9E23BC46-6028-4D41-B590-EF6E9107D9DF}
