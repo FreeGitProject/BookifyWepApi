@@ -1,10 +1,11 @@
-﻿using Bookify.Domain.Users;
+﻿using Bookify.Domain.UnitTests.Infrastructure;
+using Bookify.Domain.Users;
 using Bookify.Domain.Users.Events;
 using FluentAssertions;
 
 namespace Bookify.Domain.UnitTests.Users
 {
-    public class UserTests
+    public class UserTests : BaseTest
     {
         [Fact]
         public void Create_should_SetPropertyValues()
@@ -23,7 +24,7 @@ namespace Bookify.Domain.UnitTests.Users
             //Act
             var user = User.Create(UserData.FirstName, UserData.LastName, UserData.Email);
             //Assert
-            var domainEvent = Infrastructure.BaseTest.AssertDomainEventWasPublished<UserCreatedDomainEvent>(user);
+            var domainEvent = AssertDomainEventWasPublished<UserCreatedDomainEvent>(user);
             domainEvent.UserId.Should().Be(user.Id);
         }
         [Fact]
