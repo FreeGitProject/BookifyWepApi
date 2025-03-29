@@ -27,6 +27,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bookify.Api.FunctionalTests
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bookify.ArchitectureTests", "..\Bookify.ArchitectureTests\Bookify.ArchitectureTests.csproj", "{4FF990C6-5BCA-42BC-BE1A-42D3CE555F67}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "postman", "postman", "{44ED832B-16F3-4634-9E63-021381D07510}"
+	ProjectSection(SolutionItems) = preProject
+		C:\Users\AvinashGupta\Downloads\bookifyWebApi.postman_collection.json = C:\Users\AvinashGupta\Downloads\bookifyWebApi.postman_collection.json
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
