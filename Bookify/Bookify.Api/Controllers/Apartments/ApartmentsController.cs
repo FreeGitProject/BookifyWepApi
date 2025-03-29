@@ -6,6 +6,8 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Bookify.Application.Apartments.GetApartment;
+using Bookify.Domain.Apartments;
+using Bookify.Domain.Shared;
 
 namespace Bookify.Api.Controllers.Apartments;
 [Authorize]
@@ -53,17 +55,21 @@ public class ApartmentsController : ControllerBase
         CreateApartmentRequest request,
         CancellationToken cancellationToken)
     {
+        var address = new Address(request.Address.Country, request.Address.State, request.Address.ZipCode, request.Address.City, request.Address.Street);
+        var price = new Money(request.Price.Amount, Currency.FromCode(request.Price.Currency));
+        var cleaningFee = new Money(request.CleaningFee.Amount, Currency.FromCode(request.CleaningFee.Currency));
+
         var command = new CreateApartmentCommand(
             Guid.NewGuid(),
             request.Name,
             request.Description,
-            request.Address,
-            request.Price,
-            request.CleaningFee,
-            request.Amenities
+            address,
+            price,
+            cleaningFee,
+            request.Amenities.Select(a => (Amenity)a).ToList()
         );
 
-      
+
         var result = await _sender.Send(command, cancellationToken);
 
         if (result.IsFailure)
