@@ -86,14 +86,18 @@ public class ApartmentsController : ControllerBase
         UpdateApartmentRequest request,
         CancellationToken cancellationToken)
     {
+        var address = new Address(request.Address.Country, request.Address.State, request.Address.ZipCode, request.Address.City, request.Address.Street);
+        var price = new Money(request.Price.Amount, Currency.FromCode(request.Price.Currency));
+        var cleaningFee = new Money(request.CleaningFee.Amount, Currency.FromCode(request.CleaningFee.Currency));
+
         var command = new UpdateApartmentCommand(
             id,
             request.Name,
             request.Description,
-            request.Address,
-            request.Price,
-            request.CleaningFee,
-            request.Amenities
+            address,
+            price,
+            cleaningFee,
+            request.Amenities.Select(a => (Amenity)a).ToList()
         );
 
         var result = await _sender.Send(command, cancellationToken);

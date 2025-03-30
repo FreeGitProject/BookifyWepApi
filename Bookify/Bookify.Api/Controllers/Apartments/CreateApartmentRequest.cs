@@ -13,20 +13,9 @@ namespace Bookify.Api.Controllers.Apartments
     public sealed record CreateApartmentRequest(
     string Name,
     string Description,
-    AddressDto Address,
-    MoneyDto Price,
-    MoneyDto CleaningFee,
+    AddressRequest Address,
+    MoneyRequest Price,
+    MoneyRequest CleaningFee,
     List<int> Amenities);
-
-    public sealed record AddressDto(
-        string Country,
-        string State,
-        string ZipCode,
-        string City,
-        string Street);
-
-    public sealed record MoneyDto(
-        decimal Amount,
-        string Currency);
 
 }
