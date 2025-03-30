@@ -8,4 +8,13 @@ internal sealed class ApartmentRepository : Repository<Apartment>, IApartmentRep
         : base(dbContext)
     {
     }
+    public void Add(Apartment apartment)
+    {
+        DbContext.Set<Apartment>().Add(apartment);
+    }
+
+    public void Update(Apartment apartment)
+    {
+        DbContext.Set<Apartment>().Update(apartment);
+    }
 }

@@ -38,4 +38,39 @@ public sealed class Apartment : Entity
     public DateTime? LastBookedOnUtc { get; internal set; }
 
     public List<Amenity> Amenities { get; private set; } = new();
+    /// <summary>
+    /// Creates a new apartment instance.
+    /// </summary>
+    public static Apartment Create(
+        Guid id,
+        Name name,
+        Description description,
+        Address address,
+        Money price,
+        Money cleaningFee,
+        List<Amenity> amenities)
+    {
+        return new Apartment(id, name, description, address, price, cleaningFee, amenities);
+    }
+
+    /// <summary>
+    /// Updates the apartment details.
+    /// </summary>
+    public Result Update(
+        Name name,
+        Description description,
+        Address address,
+        Money price,
+        Money cleaningFee,
+        List<Amenity> amenities)
+    {
+        Name = name;
+        Description = description;
+        Address = address;
+        Price = price;
+        CleaningFee = cleaningFee;
+        Amenities = amenities;
+
+        return Result.Success();
+    }
 }
