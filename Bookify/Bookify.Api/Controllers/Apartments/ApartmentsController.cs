@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Bookify.Application.Apartments.GetApartment;
 using Bookify.Domain.Apartments;
 using Bookify.Domain.Shared;
+using Bookify.Infrastructure.Authorization;
 
 namespace Bookify.Api.Controllers.Apartments;
 [Authorize]
@@ -51,6 +52,7 @@ public class ApartmentsController : ControllerBase
 
 
     [HttpPost]
+    [HasPermission(Permissions.UsersWrite)]
     public async Task<IActionResult> CreateApartment(
         CreateApartmentRequest request,
         CancellationToken cancellationToken)
@@ -81,6 +83,7 @@ public class ApartmentsController : ControllerBase
     }
 
     [HttpPut("{id}")]
+    [HasPermission(Permissions.UsersWrite)]
     public async Task<IActionResult> UpdateApartment(
         Guid id,
         UpdateApartmentRequest request,

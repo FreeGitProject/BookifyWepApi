@@ -20,7 +20,7 @@ services:
     volumes:
       - ./.containers/database:/var/lib/postgresql/data
     ports:
-      - 5432:5432
+      - 5100:5432
 
   bookify-idp:
     image: quay.io/keycloak/keycloak:latest
