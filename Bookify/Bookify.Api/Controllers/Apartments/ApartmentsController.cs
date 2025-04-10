@@ -11,7 +11,7 @@ using Bookify.Domain.Shared;
 using Bookify.Infrastructure.Authorization;
 
 namespace Bookify.Api.Controllers.Apartments;
-[Authorize]
+
 [ApiController]
 [ApiVersion(ApiVersions.V1)]
 [Route("api/v{version:apiVersion}/apartments")]
@@ -51,9 +51,8 @@ public class ApartmentsController : ControllerBase
 
         return Ok(result.Value);
     }
-
-
     [HttpPost]
+    [Authorize]
     [HasPermission(Permissions.UsersWrite)]
     public async Task<IActionResult> CreateApartment(
         CreateApartmentRequest request,
@@ -84,8 +83,8 @@ public class ApartmentsController : ControllerBase
 
         return CreatedAtAction(nameof(SearchApartments), new { id = result.Value }, result.Value);
     }
-
     [HttpPut("{id}")]
+    [Authorize]
     [HasPermission(Permissions.UsersWrite)]
     public async Task<IActionResult> UpdateApartment(
         Guid id,
