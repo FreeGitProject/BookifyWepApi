@@ -25,6 +25,7 @@ public class ApartmentsController : ControllerBase
     }
 
     [HttpGet]
+    [AllowAnonymous]
     public async Task<IActionResult> SearchApartments(
         DateOnly startDate,
         DateOnly endDate,
@@ -37,6 +38,7 @@ public class ApartmentsController : ControllerBase
         return Ok(result.Value);
     }
     [HttpGet("{id}")]
+    [AllowAnonymous]
     public async Task<IActionResult> GetApartmentById(Guid id, CancellationToken cancellationToken)
     {
         var query = new GetApartmentByIdQuery(id);
