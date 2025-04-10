@@ -93,7 +93,7 @@ public class ApartmentsController : ControllerBase
         var address = new Address(request.Address.Country, request.Address.State, request.Address.ZipCode, request.Address.City, request.Address.Street);
         var price = new Money(request.Price.Amount, Currency.FromCode(request.Price.Currency));
         var cleaningFee = new Money(request.CleaningFee.Amount, Currency.FromCode(request.CleaningFee.Currency));
-
+        var images = request.ImageUrls?.Select(url => new Image(url)).ToList() ?? new();
         var command = new UpdateApartmentCommand(
             id,
             request.Name,
@@ -101,7 +101,8 @@ public class ApartmentsController : ControllerBase
             address,
             price,
             cleaningFee,
-            request.Amenities.Select(a => (Amenity)a).ToList()
+            request.Amenities.Select(a => (Amenity)a).ToList(),
+            images
         );
 
         var result = await _sender.Send(command, cancellationToken);
