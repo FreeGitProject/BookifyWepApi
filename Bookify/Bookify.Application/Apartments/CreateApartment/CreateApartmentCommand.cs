@@ -24,5 +24,7 @@ namespace Bookify.Application.Apartments.CreateApartment
     Address Address,
     Money Price,
     Money CleaningFee,
-    List<Amenity> Amenities) : ICommand<Guid>;
+    List<Amenity> Amenities,
+     List<Image> Images
+        ) : ICommand<Guid>;
 }

@@ -13,4 +13,5 @@ public sealed class ApartmentResponse
     public string Currency { get; init; }
 
     public AddressResponse Address { get; set; }
+    public List<string> ImageUrls { get; set; } = new();
 }

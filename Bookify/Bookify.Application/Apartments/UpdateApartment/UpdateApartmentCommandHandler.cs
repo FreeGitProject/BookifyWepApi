@@ -33,7 +33,8 @@ namespace Bookify.Application.Apartments.UpdateApartment
                 request.Address,
                 request.Price,
                 request.CleaningFee,
-                request.Amenities);
+                request.Amenities,
+                request.Images);
 
             await _unitOfWork.SaveChangesAsync(cancellationToken);
 

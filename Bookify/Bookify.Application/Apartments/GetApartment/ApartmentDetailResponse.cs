@@ -10,12 +10,13 @@ namespace Bookify.Application.Apartments.GetApartment
     public sealed class ApartmentDetailResponse
     {
         public Guid Id { get; init; }
-        public string Name { get; init; }
+        public required string Name { get; init; }
         public string Description { get; init; }
         public AddressResponse Address { get; set; }
         public decimal PriceAmount { get; init; }
         public string PriceCurrency { get; init; }
         public decimal CleaningFeeAmount { get; init; }
         public string CleaningFeeCurrency { get; init; }
+        public List<string> ImageUrls { get; set; } = new();
     }
 }

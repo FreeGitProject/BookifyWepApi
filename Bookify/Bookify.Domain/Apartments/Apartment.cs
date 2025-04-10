@@ -12,7 +12,8 @@ public sealed class Apartment : Entity
         Address address,
         Money price,
         Money cleaningFee,
-        List<Amenity> amenities)
+        List<Amenity> amenities,
+        List<Image> images)
         : base(id)
     {
         Name = name;
@@ -21,6 +22,7 @@ public sealed class Apartment : Entity
         Price = price;
         CleaningFee = cleaningFee;
         Amenities = amenities;
+        Images = images;
     }
     private Apartment()
     { 
@@ -38,6 +40,8 @@ public sealed class Apartment : Entity
     public DateTime? LastBookedOnUtc { get; internal set; }
 
     public List<Amenity> Amenities { get; private set; } = new();
+    public List<Image> Images { get; private set; } = new();
+
     /// <summary>
     /// Creates a new apartment instance.
     /// </summary>
@@ -48,9 +52,11 @@ public sealed class Apartment : Entity
         Address address,
         Money price,
         Money cleaningFee,
-        List<Amenity> amenities)
+        List<Amenity> amenities,
+        List<Image> images)
     {
-        return new Apartment(id, name, description, address, price, cleaningFee, amenities);
+       
+        return  new Apartment(id, name, description, address, price, cleaningFee, amenities, images);
     }
 
     /// <summary>
@@ -62,7 +68,8 @@ public sealed class Apartment : Entity
         Address address,
         Money price,
         Money cleaningFee,
-        List<Amenity> amenities)
+        List<Amenity> amenities,
+         List<Image> images)
     {
         Name = name;
         Description = description;
@@ -70,6 +77,7 @@ public sealed class Apartment : Entity
         Price = price;
         CleaningFee = cleaningFee;
         Amenities = amenities;
+        Images = images;
 
         return Result.Success();
     }

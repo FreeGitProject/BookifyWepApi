@@ -11,7 +11,7 @@ using Bookify.Domain.Shared;
 using Bookify.Infrastructure.Authorization;
 
 namespace Bookify.Api.Controllers.Apartments;
-[Authorize]
+
 [ApiController]
 [ApiVersion(ApiVersions.V1)]
 [Route("api/v{version:apiVersion}/apartments")]
@@ -25,6 +25,7 @@ public class ApartmentsController : ControllerBase
     }
 
     [HttpGet]
+    [AllowAnonymous]
     public async Task<IActionResult> SearchApartments(
         DateOnly startDate,
         DateOnly endDate,
@@ -37,6 +38,7 @@ public class ApartmentsController : ControllerBase
         return Ok(result.Value);
     }
     [HttpGet("{id}")]
+    [AllowAnonymous]
     public async Task<IActionResult> GetApartmentById(Guid id, CancellationToken cancellationToken)
     {
         var query = new GetApartmentByIdQuery(id);
@@ -49,9 +51,8 @@ public class ApartmentsController : ControllerBase
 
         return Ok(result.Value);
     }
-
-
     [HttpPost]
+    [Authorize]
     [HasPermission(Permissions.UsersWrite)]
     public async Task<IActionResult> CreateApartment(
         CreateApartmentRequest request,
@@ -60,7 +61,7 @@ public class ApartmentsController : ControllerBase
         var address = new Address(request.Address.Country, request.Address.State, request.Address.ZipCode, request.Address.City, request.Address.Street);
         var price = new Money(request.Price.Amount, Currency.FromCode(request.Price.Currency));
         var cleaningFee = new Money(request.CleaningFee.Amount, Currency.FromCode(request.CleaningFee.Currency));
-
+        var images = request.ImageUrls?.Select(url => new Image(url)).ToList() ?? new();
         var command = new CreateApartmentCommand(
             Guid.NewGuid(),
             request.Name,
@@ -68,7 +69,8 @@ public class ApartmentsController : ControllerBase
             address,
             price,
             cleaningFee,
-            request.Amenities.Select(a => (Amenity)a).ToList()
+            request.Amenities.Select(a => (Amenity)a).ToList(),
+            images
         );
 
 
@@ -81,8 +83,8 @@ public class ApartmentsController : ControllerBase
 
         return CreatedAtAction(nameof(SearchApartments), new { id = result.Value }, result.Value);
     }
-
     [HttpPut("{id}")]
+    [Authorize]
     [HasPermission(Permissions.UsersWrite)]
     public async Task<IActionResult> UpdateApartment(
         Guid id,
@@ -92,7 +94,7 @@ public class ApartmentsController : ControllerBase
         var address = new Address(request.Address.Country, request.Address.State, request.Address.ZipCode, request.Address.City, request.Address.Street);
         var price = new Money(request.Price.Amount, Currency.FromCode(request.Price.Currency));
         var cleaningFee = new Money(request.CleaningFee.Amount, Currency.FromCode(request.CleaningFee.Currency));
-
+        var images = request.ImageUrls?.Select(url => new Image(url)).ToList() ?? new();
         var command = new UpdateApartmentCommand(
             id,
             request.Name,
@@ -100,7 +102,8 @@ public class ApartmentsController : ControllerBase
             address,
             price,
             cleaningFee,
-            request.Amenities.Select(a => (Amenity)a).ToList()
+            request.Amenities.Select(a => (Amenity)a).ToList(),
+            images
         );
 
         var result = await _sender.Send(command, cancellationToken);

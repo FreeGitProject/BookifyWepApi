@@ -26,7 +26,8 @@ namespace Bookify.Application.Apartments.CreateApartment
                 request.Address,
                 request.Price,
                 request.CleaningFee,
-                request.Amenities);
+                request.Amenities,
+                request.Images);
 
             _apartmentRepository.Add(apartment);
             await _unitOfWork.SaveChangesAsync(cancellationToken);
