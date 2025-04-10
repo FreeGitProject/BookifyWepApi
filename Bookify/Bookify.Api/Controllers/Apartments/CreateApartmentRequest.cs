@@ -16,6 +16,8 @@ namespace Bookify.Api.Controllers.Apartments
     AddressRequest Address,
     MoneyRequest Price,
     MoneyRequest CleaningFee,
-    List<int> Amenities);
+    List<int> Amenities,
+    List<string> ImageUrls
+    );
 
 }

@@ -34,6 +34,20 @@ internal sealed class ApartmentConfiguration : IEntityTypeConfiguration<Apartmen
             priceBuilder.Property(money => money.Currency)
                 .HasConversion(currency => currency.Code, code => Currency.FromCode(code));
         });
+        builder.OwnsMany(apartment => apartment.Images, imageBuilder =>
+        {
+            imageBuilder.WithOwner().HasForeignKey("ApartmentId");
+
+            imageBuilder.Property(i => i.Url)
+                .HasColumnName("url") // optional; EF will snake_case automatically
+                .IsRequired();
+
+            imageBuilder.ToTable("apartment_images");
+
+            // Optional: use composite key (ApartmentId + Url) or add an index
+            imageBuilder.HasKey("ApartmentId", "Url");
+        });
+
 
         builder.Property<uint>("Version").IsRowVersion();
     }
