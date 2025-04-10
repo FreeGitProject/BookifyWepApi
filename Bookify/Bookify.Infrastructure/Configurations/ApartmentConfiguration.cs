@@ -47,7 +47,44 @@ internal sealed class ApartmentConfiguration : IEntityTypeConfiguration<Apartmen
             // Optional: use composite key (ApartmentId + Url) or add an index
             imageBuilder.HasKey("ApartmentId", "Url");
         });
+        // Property details
+        builder.Property(apartment => apartment.Bedrooms)
+            .IsRequired();
 
+        builder.Property(apartment => apartment.Bathrooms)
+            .IsRequired();
+
+        builder.Property(apartment => apartment.Size)
+            .HasPrecision(18, 2)
+            .IsRequired();
+
+        builder.Property(apartment => apartment.Type)
+            .HasConversion(
+                type => (int)type,
+                value => (ApartmentType)value)
+            .IsRequired();
+
+        builder.Property(apartment => apartment.Floor)
+            .IsRequired();
+
+        builder.Property(apartment => apartment.MaxGuests)
+            .IsRequired();
+        // Amenity flags
+        builder.Property(apartment => apartment.HasParking)
+            .IsRequired();
+
+        builder.Property(apartment => apartment.HasBalcony)
+            .IsRequired();
+
+        builder.Property(apartment => apartment.HasAirConditioning)
+            .IsRequired();
+
+        builder.Property(apartment => apartment.HasHeating)
+            .IsRequired();
+
+        // Tracking
+        builder.Property(apartment => apartment.LastBookedOnUtc)
+            .HasColumnName("last_booked_on_utc");
 
         builder.Property<uint>("Version").IsRowVersion();
     }

@@ -1,9 +1,5 @@
 ﻿using Bookify.Application.Apartments.SearchApartments;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Bookify.Domain.Apartments;
 
 namespace Bookify.Application.Apartments.GetApartment
 {
@@ -17,6 +13,18 @@ namespace Bookify.Application.Apartments.GetApartment
         public string PriceCurrency { get; init; }
         public decimal CleaningFeeAmount { get; init; }
         public string CleaningFeeCurrency { get; init; }
+        public int Bedrooms { get; init; }
+        public int Bathrooms { get; init; }
+        public decimal Size { get; init; }
+        public ApartmentType Type { get; init; }
+        public int Floor { get; init; }
+        public int MaxGuests { get; init; }
+        public bool HasParking { get; init; }
+        public bool HasBalcony { get; init; }
+        public bool HasAirConditioning { get; init; }
+        public bool HasHeating { get; init; }
+        public List<Amenity> Amenities { get; set; } = new();
         public List<string> ImageUrls { get; set; } = new();
+        public DateTime? LastBookedOnUtc { get; init; }
     }
 }

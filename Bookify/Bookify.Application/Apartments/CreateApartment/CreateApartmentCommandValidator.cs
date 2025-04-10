@@ -2,7 +2,8 @@
 
 namespace Bookify.Application.Apartments.CreateApartment
 {
-    internal sealed class CreateApartmentCommandValidator : AbstractValidator<CreateApartmentCommand>
+    internal sealed class CreateApartmentCommandValidator
+        : AbstractValidator<CreateApartmentCommand>
     {
         public CreateApartmentCommandValidator()
         {
@@ -33,6 +34,30 @@ namespace Bookify.Application.Apartments.CreateApartment
                 .Must(fee => !fee.IsZero() || fee.Amount >= 0)
                 .WithMessage("Cleaning fee cannot be negative.");
 
+            RuleFor(c => c.Bedrooms)
+                .GreaterThan(0)
+                .WithMessage("Bedrooms must be greater than 0.");
+
+            RuleFor(c => c.Bathrooms)
+                .GreaterThan(0)
+                .WithMessage("Bathrooms must be greater than 0.");
+
+            RuleFor(c => c.Size)
+                .GreaterThan(0)
+                .WithMessage("Size must be greater than 0.");
+
+            RuleFor(c => c.Type)
+                .IsInEnum()
+                .WithMessage("Invalid apartment type.");
+
+            RuleFor(c => c.Floor)
+                .GreaterThanOrEqualTo(0)
+                .WithMessage("Floor cannot be negative.");
+
+            RuleFor(c => c.MaxGuests)
+                .GreaterThan(0)
+                .WithMessage("Maximum guests must be greater than 0.");
+
             RuleFor(c => c.Amenities)
                 .NotNull()
                 .WithMessage("Amenities list is required.");
@@ -40,7 +65,8 @@ namespace Bookify.Application.Apartments.CreateApartment
             RuleFor(c => c.Images)
                 .NotNull()
                 .WithMessage("Images list is required.")
-                .Must(images => images != null && images.Any() && images.All(i => !string.IsNullOrWhiteSpace(i.Url)))
+                .Must(images => images != null && images.Any() &&
+                     images.All(i => !string.IsNullOrWhiteSpace(i.Url)))
                 .WithMessage("At least one valid image URL is required.");
         }
     }

@@ -55,13 +55,21 @@ public class ApartmentsController : ControllerBase
     [Authorize]
     [HasPermission(Permissions.UsersWrite)]
     public async Task<IActionResult> CreateApartment(
-        CreateApartmentRequest request,
-        CancellationToken cancellationToken)
+     CreateApartmentRequest request,
+     CancellationToken cancellationToken)
     {
-        var address = new Address(request.Address.Country, request.Address.State, request.Address.ZipCode, request.Address.City, request.Address.Street);
+        var address = new Address(
+            request.Address.Country,
+            request.Address.State,
+            request.Address.ZipCode,
+            request.Address.City,
+            request.Address.Street);
+
         var price = new Money(request.Price.Amount, Currency.FromCode(request.Price.Currency));
         var cleaningFee = new Money(request.CleaningFee.Amount, Currency.FromCode(request.CleaningFee.Currency));
         var images = request.ImageUrls?.Select(url => new Image(url)).ToList() ?? new();
+        var amenities = request.Amenities?.Select(a => (Amenity)a).ToList() ?? new();
+
         var command = new CreateApartmentCommand(
             Guid.NewGuid(),
             request.Name,
@@ -69,10 +77,19 @@ public class ApartmentsController : ControllerBase
             address,
             price,
             cleaningFee,
-            request.Amenities.Select(a => (Amenity)a).ToList(),
-            images
+            request.Bedrooms,
+            request.Bathrooms,
+            request.Size,
+            request.Type,
+            amenities,
+            images,
+            request.HasParking,
+            request.HasBalcony,
+            request.HasAirConditioning,
+            request.HasHeating,
+            request.Floor,
+            request.MaxGuests
         );
-
 
         var result = await _sender.Send(command, cancellationToken);
 
@@ -81,20 +98,31 @@ public class ApartmentsController : ControllerBase
             return BadRequest(result.Error);
         }
 
-        return CreatedAtAction(nameof(SearchApartments), new { id = result.Value }, result.Value);
+        return CreatedAtAction(
+            nameof(GetApartmentById),
+            new { id = result.Value },
+            new { Id = result.Value });
     }
-    [HttpPut("{id}")]
+    [HttpPut("{id:guid}")]
     [Authorize]
     [HasPermission(Permissions.UsersWrite)]
     public async Task<IActionResult> UpdateApartment(
-        Guid id,
-        UpdateApartmentRequest request,
-        CancellationToken cancellationToken)
+    Guid id,
+    UpdateApartmentRequest request,
+    CancellationToken cancellationToken)
     {
-        var address = new Address(request.Address.Country, request.Address.State, request.Address.ZipCode, request.Address.City, request.Address.Street);
+        var address = new Address(
+            request.Address.Country,
+            request.Address.State,
+            request.Address.ZipCode,
+            request.Address.City,
+            request.Address.Street);
+
         var price = new Money(request.Price.Amount, Currency.FromCode(request.Price.Currency));
         var cleaningFee = new Money(request.CleaningFee.Amount, Currency.FromCode(request.CleaningFee.Currency));
         var images = request.ImageUrls?.Select(url => new Image(url)).ToList() ?? new();
+        var amenities = request.Amenities?.Select(a => (Amenity)a).ToList() ?? new();
+
         var command = new UpdateApartmentCommand(
             id,
             request.Name,
@@ -102,15 +130,27 @@ public class ApartmentsController : ControllerBase
             address,
             price,
             cleaningFee,
-            request.Amenities.Select(a => (Amenity)a).ToList(),
-            images
+            request.Bedrooms,
+            request.Bathrooms,
+            request.Size,
+            request.Type,
+            amenities,
+            images,
+            request.HasParking,
+            request.HasBalcony,
+            request.HasAirConditioning,
+            request.HasHeating,
+            request.Floor,
+            request.MaxGuests
         );
 
         var result = await _sender.Send(command, cancellationToken);
 
         if (result.IsFailure)
         {
-            return NotFound(result.Error);
+            return result.Error == ApartmentErrors.NotFound
+                ? NotFound(result.Error)
+                : BadRequest(result.Error);
         }
 
         return NoContent();

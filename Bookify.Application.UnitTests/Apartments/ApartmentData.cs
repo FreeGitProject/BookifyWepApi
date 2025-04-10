@@ -6,11 +6,63 @@ namespace Bookify.Application.UnitTests.Apartments;
 internal static class ApartmentData
 {
     public static Apartment Create() => new(
-        Guid.NewGuid(),
-        new Name("Test apartment"),
-        new Description("Test description"),
-        new Address("Country", "State", "ZipCode", "City", "Street"),
-        new Money(100.0m, Currency.Usd),
-        Money.Zero(),
-        []);
+        id: Guid.NewGuid(),
+        name: new Name("Test apartment"),
+        description: new Description("Test description"),
+        address: new Address("Country", "State", "ZipCode", "City", "Street"),
+        price: new Money(100.0m, Currency.Usd),
+        cleaningFee: new Money(10.0m, Currency.Usd),
+        bedrooms: 1,
+        bathrooms: 1,
+        size: 50m,
+        type: ApartmentType.Apartment,
+        amenities: new List<Amenity>(),
+        images: new List<Image> { new Image("test-image.jpg") },
+        hasParking: false,
+        hasBalcony: false,
+        hasAirConditioning: false,
+        hasHeating: false,
+        floor: 1,
+        maxGuests: 2);
+
+    public static Apartment CreateCustom(
+        Guid? id = null,
+        Name? name = null,
+        Description? description = null,
+        Address? address = null,
+        Money? price = null,
+        Money? cleaningFee = null,
+        int? bedrooms = null,
+        int? bathrooms = null,
+        decimal? size = null,
+        ApartmentType? type = null,
+        List<Amenity>? amenities = null,
+        List<Image>? images = null,
+        bool? hasParking = null,
+        bool? hasBalcony = null,
+        bool? hasAirConditioning = null,
+        bool? hasHeating = null,
+        int? floor = null,
+        int? maxGuests = null)
+    {
+        return new Apartment(
+            id ?? Guid.NewGuid(),
+            name ?? new Name("Test apartment"),
+            description ?? new Description("Test description"),
+            address ?? new Address("Country", "State", "ZipCode", "City", "Street"),
+            price ?? new Money(100.0m, Currency.Usd),
+            cleaningFee ?? new Money(10.0m, Currency.Usd),
+            bedrooms ?? 1,
+            bathrooms ?? 1,
+            size ?? 50m,
+            type ?? ApartmentType.Apartment,
+            amenities ?? new List<Amenity>(),
+            images ?? new List<Image> { new Image("test-image.jpg") },
+            hasParking ?? false,
+            hasBalcony ?? false,
+            hasAirConditioning ?? false,
+            hasHeating ?? false,
+            floor ?? 1,
+            maxGuests ?? 2);
+    }
 }

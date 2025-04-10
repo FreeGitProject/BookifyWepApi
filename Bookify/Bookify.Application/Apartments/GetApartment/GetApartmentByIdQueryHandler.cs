@@ -32,12 +32,24 @@ namespace Bookify.Application.Apartments.GetApartment
                     a.price_currency AS PriceCurrency,
                     a.cleaning_fee_amount AS CleaningFeeAmount,
                     a.cleaning_fee_currency AS CleaningFeeCurrency,
+                    a.bedrooms AS Bedrooms,
+                    a.bathrooms AS Bathrooms,
+                    a.size AS Size,
+                    a.type AS Type,
+                    a.floor AS Floor,
+                    a.max_guests AS MaxGuests,
+                    a.has_parking AS HasParking,
+                    a.has_balcony AS HasBalcony,
+                    a.has_air_conditioning AS HasAirConditioning,
+                    a.has_heating AS HasHeating,
+                    a.amenities AS Amenities,
+                    a.last_booked_on_utc AS LastBookedOnUtc,
                     a.address_country AS Country,
                     a.address_state AS State,
                     a.address_zip_code AS ZipCode,
                     a.address_city AS City,
                     a.address_street AS Street,
-                    ai.url AS ImageUrl  -- This must match the splitOn parameter
+                    ai.url AS ImageUrl
                 FROM apartments a
                 LEFT JOIN apartment_images ai ON ai.apartment_id = a.id
                 WHERE a.id = @ApartmentId
@@ -45,11 +57,7 @@ namespace Bookify.Application.Apartments.GetApartment
 
             var apartmentDictionary = new Dictionary<Guid, ApartmentDetailResponse>();
 
-            var apartments = await connection.QueryAsync<
-                ApartmentDetailResponse,
-                AddressResponse,
-                string,
-                ApartmentDetailResponse>(
+            await connection.QueryAsync<ApartmentDetailResponse, AddressResponse, string, ApartmentDetailResponse>(
                 sql,
                 (apartment, address, imageUrl) =>
                 {
@@ -69,7 +77,7 @@ namespace Bookify.Application.Apartments.GetApartment
                     return apartmentEntry;
                 },
                 new { request.ApartmentId },
-                splitOn: "Country,ImageUrl");  // Must match the column aliases in SQL
+                splitOn: "Country,ImageUrl");
 
             if (!apartmentDictionary.TryGetValue(request.ApartmentId, out var result))
             {

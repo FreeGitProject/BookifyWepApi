@@ -14,6 +14,7 @@ using Bookify.Infrastructure.Authorization;
 using Bookify.Infrastructure.Caching;
 using Bookify.Infrastructure.Clock;
 using Bookify.Infrastructure.Data;
+using Bookify.Infrastructure.Data.TypeHandlers;
 using Bookify.Infrastructure.Email;
 using Bookify.Infrastructure.Outbox;
 using Bookify.Infrastructure.Repositories;
@@ -66,7 +67,7 @@ public static class DependencyInjection
 
         services.AddDbContext<ApplicationDbContext>(options =>
             options.UseNpgsql(connectionString).UseSnakeCaseNamingConvention());
-
+   
         services.AddScoped<IUserRepository, UserRepository>();
 
         services.AddScoped<IApartmentRepository, ApartmentRepository>();
@@ -81,6 +82,7 @@ public static class DependencyInjection
             new SqlConnectionFactory(connectionString));
 
         SqlMapper.AddTypeHandler(new DateOnlyTypeHandler());
+        SqlMapper.AddTypeHandler(new AmenityListTypeHandler());
     }
 
     private static void AddAuthentication(IServiceCollection services, IConfiguration configuration)

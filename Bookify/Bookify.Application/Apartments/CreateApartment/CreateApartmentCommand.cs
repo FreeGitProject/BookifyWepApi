@@ -18,13 +18,23 @@ namespace Bookify.Application.Apartments.CreateApartment
     //  string CleaningFeeCurrency,
     //  List<string> Amenities) : ICommand<Guid>;
     public sealed record CreateApartmentCommand(
-    Guid Id,
-    string Name,
-    string Description,
-    Address Address,
-    Money Price,
-    Money CleaningFee,
-    List<Amenity> Amenities,
-     List<Image> Images
-        ) : ICommand<Guid>;
+     Guid Id,
+     string Name,
+     string Description,
+     Address Address,
+     Money Price,
+     Money CleaningFee,
+     int Bedrooms,
+     int Bathrooms,
+     decimal Size,
+     ApartmentType Type,
+     List<Amenity> Amenities,
+     List<Image> Images,
+     bool HasParking = false,
+     bool HasBalcony = false,
+     bool HasAirConditioning = false,
+     bool HasHeating = false,
+     int Floor = 1,
+     int MaxGuests = 2
+ ) : ICommand<Guid>;
 }
