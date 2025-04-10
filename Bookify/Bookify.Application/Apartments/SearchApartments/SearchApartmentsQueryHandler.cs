@@ -43,8 +43,10 @@ internal sealed class SearchApartmentsQueryHandler
                 a.address_state AS State,
                 a.address_zip_code AS ZipCode,
                 a.address_city AS City,
-                a.address_street AS Street
+                a.address_street AS Street,
+                ai.url AS ImageUrl
             FROM apartments AS a
+            LEFT JOIN apartment_images AS ai ON ai.apartment_id = a.id
             WHERE NOT EXISTS
             (
                 SELECT 1
@@ -56,15 +58,26 @@ internal sealed class SearchApartmentsQueryHandler
                     b.status = ANY(@ActiveBookingStatuses)
             )
             """;
+        var apartmentDictionary = new Dictionary<Guid, ApartmentResponse>();
 
-        var apartments = await connection
-            .QueryAsync<ApartmentResponse, AddressResponse, ApartmentResponse>(
+        var apartments = await connection.QueryAsync<ApartmentResponse, AddressResponse, string, ApartmentResponse>(
                 sql,
-                (apartment, address) =>
+                (apartment, address, imageUrl) =>
                 {
-                    apartment.Address = address;
+                    if (!apartmentDictionary.TryGetValue(apartment.Id, out var apartmentEntry))
+                    {
+                        apartmentEntry = apartment;
+                        apartmentEntry.Address = address;
+                        apartmentEntry.ImageUrls = new List<string>();
+                        apartmentDictionary.Add(apartmentEntry.Id, apartmentEntry);
+                    }
 
-                    return apartment;
+                    if (!string.IsNullOrEmpty(imageUrl))
+                    {
+                        apartmentEntry.ImageUrls.Add(imageUrl);
+                    }
+
+                    return apartmentEntry;
                 },
                 new
                 {
@@ -72,8 +85,8 @@ internal sealed class SearchApartmentsQueryHandler
                     request.EndDate,
                     ActiveBookingStatuses
                 },
-                splitOn: "Country");
+                splitOn: "Country,ImageUrl");
 
-        return apartments.ToList();
+        return apartmentDictionary.Values.ToList();
     }
 }
