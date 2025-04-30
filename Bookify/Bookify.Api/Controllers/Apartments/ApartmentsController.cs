@@ -27,11 +27,36 @@ public class ApartmentsController : ControllerBase
     [HttpGet]
     [AllowAnonymous]
     public async Task<IActionResult> SearchApartments(
-        DateOnly startDate,
-        DateOnly endDate,
-        CancellationToken cancellationToken)
+        CancellationToken cancellationToken,
+    [FromQuery] DateOnly? startDate,
+    [FromQuery] DateOnly? endDate,
+    [FromQuery] string? country,
+    [FromQuery] string? name,
+    [FromQuery] decimal? minPrice,
+    [FromQuery] decimal? maxPrice,
+    [FromQuery] int? bedrooms,
+    [FromQuery] int? bathrooms,
+    [FromQuery] ApartmentType? type,
+    [FromQuery] List<Amenity>? amenities,
+    [FromQuery] string sortBy = "recommended",
+    [FromQuery] int page = 1,
+    [FromQuery] int pageSize = 10
+    )
     {
-        var query = new SearchApartmentsQuery(startDate, endDate);
+        var query = new SearchApartmentsQuery(
+            startDate,
+            endDate,
+            country,
+            name,
+            minPrice,
+            maxPrice,
+            bedrooms,
+            bathrooms,
+            type,
+            amenities,
+            sortBy,
+            page,
+            pageSize);
 
         var result = await _sender.Send(query, cancellationToken);
 
