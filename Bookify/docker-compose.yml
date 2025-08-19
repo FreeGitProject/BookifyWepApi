@@ -36,7 +36,7 @@ services:
     ports:
       - 18080:8080
   bookify-seq:
-    image: datalust/seq:latest
+    image: datalust/seq:2024.3
     container_name: Bookify.Seq
     environment:
       - ACCEPT_EULA=Y
