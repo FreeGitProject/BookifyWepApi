@@ -1,7 +1,8 @@
 // src/features/apartments/components/ApartmentCard.tsx
 
 import { Link } from "react-router-dom";
-import type { Apartment } from "../api/apartmentApi";
+import type { Apartment } from "../models/Apartment";
+//import type { Apartment } from "../api/apartmentApi";
 
 interface ApartmentCardProps {
   apartment: Apartment;
