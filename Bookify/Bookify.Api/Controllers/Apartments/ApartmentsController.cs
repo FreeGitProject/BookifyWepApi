@@ -1,4 +1,5 @@
 ﻿using Asp.Versioning;
+using Bookify.Application.Apartments.GetApartment;
 using Bookify.Application.Apartments.SearchApartments;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -29,5 +30,15 @@ public class ApartmentsController : ControllerBase
         var result = await _sender.Send(query, cancellationToken);
 
         return Ok(result.Value);
+    }
+
+    [HttpGet("{id}")]
+    public async Task<IActionResult> GetAparment(Guid id, CancellationToken cancellationToken)
+    {
+        var query = new GetAparmentQuery(id);
+
+        var result = await _sender.Send(query, cancellationToken);
+
+        return result.IsSuccess ? Ok(result.Value) : NotFound();
     }
 }
