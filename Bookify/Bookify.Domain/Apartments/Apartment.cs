@@ -113,4 +113,25 @@ public sealed class Apartment : Entity
     public Policies Policies { get; private set; }
 
     public DateTime? LastBookedOnUtc { get; internal set; }
+
+    // Add a single image (idempotent)
+    public void AddImage(Image image)
+    {
+        if (image is null) throw new ArgumentNullException(nameof(image));
+        if (Images.Any(i => string.Equals(i.Url, image.Url, StringComparison.OrdinalIgnoreCase)))
+            return;
+
+        Images.Add(image);
+    }
+
+    // Add many (idempotent)
+    public void AddImages(IEnumerable<Image> images)
+    {
+        if (images is null) throw new ArgumentNullException(nameof(images));
+
+        foreach (var img in images)
+        {
+            AddImage(img);
+        }
+    }
 }

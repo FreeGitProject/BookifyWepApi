@@ -26,4 +26,8 @@ internal abstract class Repository<T>
     {
         DbContext.Add(entity);
     }
+    public virtual void Update(T entity)
+    {
+        DbContext.Add(entity);
+    }
 }

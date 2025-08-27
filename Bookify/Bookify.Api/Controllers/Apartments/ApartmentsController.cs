@@ -1,4 +1,5 @@
 ﻿using Asp.Versioning;
+using Bookify.Application.Apartments.AddApartmentImage;
 using Bookify.Application.Apartments.CreateApartment;
 using Bookify.Application.Apartments.GetApartment;
 using Bookify.Application.Apartments.SearchApartments;
@@ -73,5 +74,22 @@ public class ApartmentsController : ControllerBase
         }
 
         return Ok(result.Value); // return the ApartmentId (Guid)
+    }
+
+    // POST api/apartments/{apartmentId}/images
+    [HttpPost("{apartmentId:guid}/images")]
+    public async Task<IActionResult> AddImages(
+        Guid apartmentId,
+        AddApartmentImagesRequest request,
+        CancellationToken cancellationToken)
+    {
+        var command = new AddApartmentImagesCommand(apartmentId, request.ImageUrls);
+        var result = await _sender.Send(command, cancellationToken);
+
+        if (result.IsFailure)
+            return BadRequest(result.Error);
+
+        // return created apartment id (or 204 NoContent if you prefer)
+        return Ok(result.Value);
     }
 }
