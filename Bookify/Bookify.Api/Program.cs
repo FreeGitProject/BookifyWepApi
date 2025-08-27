@@ -1,6 +1,8 @@
 using Asp.Versioning.ApiExplorer;
+using Bookify.Api;
 using Bookify.Api.Extensions;
 using Bookify.Api.OpenApi;
+using Bookify.Api.Settings;
 using Bookify.Application;
 using Bookify.Infrastructure;
 using HealthChecks.UI.Client;
@@ -20,11 +22,12 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 // Add services to the container.
+
 builder.Services.AddApplication();
 builder.Services.AddInfrastructure(builder.Configuration);
 
 builder.Services.ConfigureOptions<ConfigureSwaggerOptions>();
-
+builder.AddCorsPolicy();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -47,6 +50,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseCors(CorsOptions.PolicyName);
 
 app.UseRequestContextLogging();
 
