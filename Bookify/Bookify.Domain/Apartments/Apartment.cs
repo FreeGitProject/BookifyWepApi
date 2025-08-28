@@ -161,5 +161,36 @@ public sealed class Apartment : Entity
         var idx = Amenities.FindIndex(a => a.Type == type);
         if (idx >= 0) Amenities.RemoveAt(idx);
     }
+    // in Bookify.Domain.Apartments.Apartment
+    public void AddOrUpdateNearbyPlace(string name, string distance, string type)
+    {
+        if (string.IsNullOrWhiteSpace(name)) throw new ArgumentNullException(nameof(name));
+        if (string.IsNullOrWhiteSpace(type)) throw new ArgumentNullException(nameof(type));
+        if (distance is null) distance = string.Empty;
+
+        var index = NearbyPlaces.FindIndex(p =>
+            string.Equals(p.Name, name, StringComparison.OrdinalIgnoreCase) &&
+            string.Equals(p.Type, type, StringComparison.OrdinalIgnoreCase));
+
+        if (index >= 0)
+        {
+            var existing = NearbyPlaces[index];
+            if (string.Equals(existing.Distance, distance, StringComparison.Ordinal)) return;
+            NearbyPlaces[index] = new NearbyPlace(name, distance, type);
+            return;
+        }
+
+        NearbyPlaces.Add(new NearbyPlace(name, distance, type));
+    }
+
+    public void RemoveNearbyPlace(string name, string type)
+    {
+        var index = NearbyPlaces.FindIndex(p =>
+            string.Equals(p.Name, name, StringComparison.OrdinalIgnoreCase) &&
+            string.Equals(p.Type, type, StringComparison.OrdinalIgnoreCase));
+
+        if (index >= 0)
+            NearbyPlaces.RemoveAt(index);
+    }
 
 }

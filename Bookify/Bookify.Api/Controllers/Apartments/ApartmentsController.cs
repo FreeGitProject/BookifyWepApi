@@ -1,6 +1,7 @@
 ﻿using Asp.Versioning;
 using Bookify.Application.Apartments.AddApartmentAmenities;
 using Bookify.Application.Apartments.AddApartmentImage;
+using Bookify.Application.Apartments.AddApartmentNearbyPlaces;
 using Bookify.Application.Apartments.CreateApartment;
 using Bookify.Application.Apartments.GetApartment;
 using Bookify.Application.Apartments.SearchApartments;
@@ -103,6 +104,25 @@ public class ApartmentsController : ControllerBase
         var command = new AddApartmentAmenitiesCommand(
             apartmentId,
             request.Amenities.Select(a => new AmenityDto(a.Type, a.Included)).ToList());
+
+        var result = await _sender.Send(command, cancellationToken);
+
+        if (result.IsFailure)
+            return BadRequest(result.Error);
+
+        return Ok(result.Value); // or NoContent()
+    }
+
+    [HttpPost("{apartmentId:guid}/nearby-places")]
+    public async Task<IActionResult> AddNearbyPlaces(
+       Guid apartmentId,
+       AddApartmentNearbyPlacesRequest request,
+       CancellationToken cancellationToken)
+    {
+        var command = new AddApartmentNearbyPlacesCommand(
+            apartmentId,
+            request.Places.Select(p => new NearbyPlaceDto(p.Name, p.Distance, p.Type)).ToList()
+        );
 
         var result = await _sender.Send(command, cancellationToken);
 
