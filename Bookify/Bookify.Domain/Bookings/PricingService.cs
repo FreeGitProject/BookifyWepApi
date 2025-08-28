@@ -14,15 +14,30 @@ public class PricingService
             currency);
 
         decimal percentageUpCharge = 0;
+        //old way here we only use enum
+        //foreach (var amenity in apartment.Amenities)
+        //{
+        //    percentageUpCharge += amenity switch
+        //    {
+        //        Amenity.GardenView or Amenity.MountainView => 0.05m,
+        //        Amenity.AirConditioning => 0.01m,
+        //        Amenity.Parking => 0.01m,
+        //        _ => 0
+        //    };
+        //}
         foreach (var amenity in apartment.Amenities)
         {
-            percentageUpCharge += amenity switch
+            switch (amenity.Type)
             {
-                Amenity.GardenView or Amenity.MountainView => 0.05m,
-                Amenity.AirConditioning => 0.01m,
-                Amenity.Parking => 0.01m,
-                _ => 0
-            };
+                case AmenityType.GardenView:
+                case AmenityType.MountainView:
+                    percentageUpCharge += 0.05m;
+                    break;
+                case AmenityType.AirConditioning:
+                case AmenityType.Parking:
+                    percentageUpCharge += 0.01m;
+                    break;
+            }
         }
 
         var amenitiesUpCharge = Money.Zero(currency);
