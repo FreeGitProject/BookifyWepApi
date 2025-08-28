@@ -1,4 +1,5 @@
 ﻿using Asp.Versioning;
+using Bookify.Application.Apartments.AddApartmentAmenities;
 using Bookify.Application.Apartments.AddApartmentImage;
 using Bookify.Application.Apartments.CreateApartment;
 using Bookify.Application.Apartments.GetApartment;
@@ -91,5 +92,23 @@ public class ApartmentsController : ControllerBase
 
         // return created apartment id (or 204 NoContent if you prefer)
         return Ok(result.Value);
+    }
+
+    [HttpPost("{apartmentId:guid}/amenities")]
+    public async Task<IActionResult> AddAmenities(
+        Guid apartmentId,
+        AddApartmentAmenitiesRequest request,
+        CancellationToken cancellationToken)
+    {
+        var command = new AddApartmentAmenitiesCommand(
+            apartmentId,
+            request.Amenities.Select(a => new AmenityDto(a.Type, a.Included)).ToList());
+
+        var result = await _sender.Send(command, cancellationToken);
+
+        if (result.IsFailure)
+            return BadRequest(result.Error);
+
+        return Ok(result.Value); // or NoContent()
     }
 }

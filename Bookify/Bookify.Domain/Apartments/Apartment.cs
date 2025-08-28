@@ -134,4 +134,32 @@ public sealed class Apartment : Entity
             AddImage(img);
         }
     }
+
+    // inside Bookify.Domain.Apartments.Apartment
+    public void AddOrUpdateAmenity(AmenityType type, bool included)
+    {
+        // find existing by type
+        var index = Amenities.FindIndex(a => a.Type == type);
+
+        if (index >= 0)
+        {
+            var existing = Amenities[index];
+            // if nothing changed, keep as-is
+            if (existing.Included == included) return;
+
+            // replace existing record with new one (record is immutable)
+            Amenities[index] = new Amenity(type, included);
+            return;
+        }
+
+        // add new amenity
+        Amenities.Add(new Amenity(type, included));
+    }
+
+    public void RemoveAmenity(AmenityType type)
+    {
+        var idx = Amenities.FindIndex(a => a.Type == type);
+        if (idx >= 0) Amenities.RemoveAt(idx);
+    }
+
 }
