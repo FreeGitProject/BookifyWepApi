@@ -4,6 +4,7 @@ using Bookify.Application.Apartments.AddApartmentImage;
 using Bookify.Application.Apartments.AddApartmentNearbyPlaces;
 using Bookify.Application.Apartments.CreateApartment;
 using Bookify.Application.Apartments.GetApartment;
+using Bookify.Application.Apartments.RemoveApartmentNearbyPlace;
 using Bookify.Application.Apartments.SearchApartments;
 using Bookify.Domain.Apartments;
 using Bookify.Domain.Shared;
@@ -131,4 +132,21 @@ public class ApartmentsController : ControllerBase
 
         return Ok(result.Value); // or NoContent()
     }
+
+    [HttpDelete("{apartmentId:guid}/nearby-places")]
+    public async Task<IActionResult> RemoveNearbyPlace(
+    Guid apartmentId,
+    RemoveNearbyPlaceRequestDto request,
+    CancellationToken cancellationToken)
+    {
+        var command = new RemoveApartmentNearbyPlaceCommand(apartmentId, request.Name, request.Type);
+
+        var result = await _sender.Send(command, cancellationToken);
+
+        if (result.IsFailure)
+            return BadRequest(result.Error);
+
+        return NoContent();
+    }
+
 }
