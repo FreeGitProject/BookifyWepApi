@@ -1,102 +1,73 @@
-// src/features/auth/pages/LoginPage.tsx
-import { useState } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { loginUser} from "../api/authApi";
-import type { LoginRequest } from "../models/LoginRequest";
-import type { ApiError } from "../models/ApiError";
+import { useAuth } from "../../../contexts/AuthContext";
 
-const LoginPage = () => {
+const LoginPage: React.FC = () => {
+  const [form, setForm] = useState({ email: "", password: "" });
+  const [error, setError] = useState("");
+  const { login } = useAuth(); // ✅ get login from context
   const navigate = useNavigate();
-  const [formData, setFormData] = useState<LoginRequest>({
-    email: "",
-    password: "",
-  });
-
-  const [errors, setErrors] = useState<string[]>([]);
-  const [loading, setLoading] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    setForm({ ...form, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setErrors([]);
-    setLoading(true);
+    setError("");
 
     try {
-      const res = await loginUser(formData);
-
-      //  Save token in localStorage
-      localStorage.setItem("token", res.accessToken );
-
-      //  Redirect to apartments list
-      navigate("/");
+      await login(form.email, form.password); // ✅ correctly call login
+      navigate("/");  // redirect to Home
     } catch (err: any) {
-      if (err.response?.data) {
-        const apiError: ApiError = err.response.data;
-        const msgs = apiError.errors?.map(
-          (e) => `${e.propertyName}: ${e.errorMessage}`
-        ) || [apiError.detail];
-        setErrors(msgs);
-      } else {
-        setErrors(["Invalid credentials or server error"]);
-      }
-    } finally {
-      setLoading(false);
+      setError("Invalid credentials");
     }
   };
 
   return (
-    <div className="flex justify-center items-center h-screen bg-gray-100">
-      <div className="w-full max-w-md bg-white shadow-md rounded-lg p-6">
-        <h2 className="text-2xl font-bold mb-4 text-center">Login</h2>
-
-        {errors.length > 0 && (
-          <div className="bg-red-100 text-red-700 p-3 rounded mb-4">
-            <ul className="list-disc list-inside">
-              {errors.map((error, idx) => (
-                <li key={idx}>{error}</li>
-              ))}
-            </ul>
-          </div>
-        )}
-
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <input
-            type="email"
-            name="email"
-            placeholder="Email"
-            value={formData.email}
-            onChange={handleChange}
-            className="w-full border p-2 rounded"
-          />
-          <input
-            type="password"
-            name="password"
-            placeholder="Password"
-            value={formData.password}
-            onChange={handleChange}
-            className="w-full border p-2 rounded"
-          />
-
-          <button
-            type="submit"
-            disabled={loading}
-            className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition"
+    <div className="min-h-screen bg-slate-900">
+      <div className="container mx-auto px-6 py-8 mt-10">
+        <div className="flex justify-center items-center min-h-screen bg-gray-100">
+          <form
+            onSubmit={handleSubmit}
+            className="bg-white p-6 rounded-lg shadow-md w-96"
           >
-            {loading ? "Logging in..." : "Login"}
-          </button>
-        </form>
+            <h2 className="text-xl font-bold mb-4">Login</h2>
 
-        <p className="mt-4 text-center text-sm">
-          Don’t have an account?{" "}
-          <a href="/register" className="text-blue-600 underline">
-            Register
-          </a>
-        </p>
+            <input
+              type="email"
+              name="email"
+              placeholder="Email"
+              value={form.email}
+              onChange={handleChange}
+              className="w-full p-2 border rounded mb-3"
+            />
+            <input
+              type="password"
+              name="password"
+              placeholder="Password"
+              value={form.password}
+              onChange={handleChange}
+              className="w-full p-2 border rounded mb-3"
+            />
+
+            {error && <p className="text-red-500 text-sm mb-3">{error}</p>}
+
+            <button
+              type="submit"
+              className="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600"
+            >
+              Login
+            </button>
+            <a href="/register">signup</a>
+          </form>
+
+        </div>
       </div>
+
+
     </div>
+
   );
 };
 

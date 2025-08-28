@@ -25,3 +25,16 @@ docker inspect <e6c2ed1c34237f3c8e81668c98a52607ef3a8c7d3dc4f8c76c7a2f161ec5daba
  }
  
  Update-Database
+
+
+----
+
+SELECT * FROM public.bookings
+ORDER BY id ASC LIMIT 100
+
+select address_country,* FRom apartments where Id ='3dd80e7c-5948-4f19-a20f-4e42a8003491'
+
+select * From apartment_images 
+
+select * From apartment_amenities
+select * from apartment_nearby_places
